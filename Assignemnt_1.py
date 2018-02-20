@@ -5,10 +5,9 @@ from sklearn.linear_model import LinearRegression
 from sklearn import preprocessing,svm
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
-from matplotlib import style
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
-
+import seaborn as sns
 
 
 # reading CSV as a dataframe 
@@ -23,6 +22,7 @@ print(data.dtypes)
 data = data.drop(['CarName','car_ID'], axis=1)
 #data = data.select_dtypes(include=['object']).copy()
 obj_df1 = data.select_dtypes(include=['object']).copy()
+print(np.unique(obj_df1['enginetype']))
 #print (np.unique(obj_df1['aspiration']))
 #print (pd.get_dummies(obj_df1['aspiration']))
 # when we use get dummies the values gets over written if we assign it to same value
@@ -44,7 +44,7 @@ print ("After", obj_df1.head())
 #class_mapping = {label:idx for idx , label in enumerate(np.unique(obj_df['aspiration']))}
 ##print(class_mapping)
 #
-#print(np.unique(obj_df['enginetype']))
+
 #
 ##type one 
 data_dummies = pd.get_dummies(data , drop_first=True)
@@ -65,16 +65,18 @@ Y_pred = clf.predict(X_test)
 #print (Y_pred)
 print("Y_pred" , Y_pred[0])
 print ("Y_test" , Y_test[0])
+error = mean_squared_error(Y_test, Y_pred)
 #print('Coefficients: \n', clf.coef_)
 print("Mean squared error: %.2f"
       % mean_squared_error(Y_test, Y_pred))
 print('Variance score: %.2f' % r2_score(Y_test, Y_pred))
-m = clf.coef_[0]
+m = clf.coef_
 b = clf.intercept_
+Y_pred1 = m * X_test + b
 print ("formula y= {0} x + {1} :".format(m,b))
 
-#plt.scatter(X_test, Y_test,  color='black')
-#plt.plot(X_test, Y_pred, color='blue', linewidth=3)
+plt.scatter(Y_pred,Y_test , color='black')
+plt.plot(Y_test, error, color='blue', linewidth=3)
 
 plt.xticks(())
 plt.yticks(())
@@ -82,7 +84,7 @@ plt.yticks(())
 plt.show()
 accuracy = clf.score(X_test,Y_test)
 print (accuracy)
-
+#sns.lmplot(x=Y_test,y=Y_pred,data=data,fit_reg=True)
 
 
 # methond 2
