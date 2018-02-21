@@ -75,8 +75,8 @@ b = clf.intercept_
 Y_pred1 = m * X_test + b
 print ("formula y= {0} x + {1} :".format(m,b))
 
-plt.scatter(Y_pred,Y_test , color='black')
-plt.plot(Y_test, error, color='blue', linewidth=3)
+#plt.scatter(Y_pred,Y_test , color='black')
+#plt.plot(Y_test, error, color='blue', linewidth=3)
 
 plt.xticks(())
 plt.yticks(())
